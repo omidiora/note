@@ -37,9 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'notes',
+    'corsheaders',
+    'rest_framework',
+     'channels',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST=('http://localhost:3000')
 ROOT_URLCONF = 'notes_project.urls'
 
 TEMPLATES = [
@@ -118,3 +124,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ASGI_APPLICATION='notes_project.routing.application'
+
+CHANNEL_LAYERS={
+    'default':{
+        'BACKEND':'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'HOST':[{'127.0.0.1',6379}]
+
+        }
+    }
+}
